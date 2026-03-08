@@ -1,25 +1,443 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Sergu Deep Learning</title>
-</head>
-<body>
-  <iframe 
-    src="https://script.google.com/macros/s/AKfycbw01ut6XBRSXkocMt98FsPrY-9rIuCTfJNBa0lnYLkdwIHt2Wn7nWrZ0XShvcFiwrKd/exec"
-    width="100%"
-    height="100%"
-    allowfullscreen="true"
-    style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none;">
-  </iframe>
+  <head>
+    <base target="_top" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root {
+        --bg: #f5f7fb;
+        --card: #ffffff;
+        --primary: #1a73e8;
+        --primary-dark: #1558b0;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --success-bg: #e8f5e9;
+        --success-text: #1b5e20;
+        --error-bg: #fdecea;
+        --error-text: #b3261e;
+        --warning-bg: #fff4e5;
+        --warning-text: #8a4b00;
+        --border: #e5e7eb;
+      }
 
-  <script>
-    window.onload = function() {
-      document.querySelector('iframe')
-        .requestFullscreen()
-        .catch((err) => {
-          console.error('Error attempting to enable full-screen mode:', err.message);
-        });
-    };
-  </script>
-</body>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(180deg, #f7f9fc 0%, #eef3fb 100%);
+        color: var(--text);
+      }
+
+      .wrapper {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 760px;
+        background: var(--card);
+        border-radius: 18px;
+        box-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
+        overflow: hidden;
+      }
+
+      .hero {
+        padding: 32px 32px 20px;
+        background: linear-gradient(135deg, #1a73e8 0%, #3b82f6 100%);
+        color: #fff;
+      }
+
+      .hero h1 {
+        margin: 0 0 10px;
+        font-size: 30px;
+        line-height: 1.2;
+      }
+
+      .hero p {
+        margin: 0;
+        font-size: 15px;
+        line-height: 1.6;
+        opacity: 0.96;
+      }
+
+      .content {
+        padding: 28px 32px 32px;
+      }
+
+      .field-label {
+        display: block;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .field-row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .input {
+        flex: 1 1 380px;
+        min-height: 52px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px 16px;
+        font-size: 16px;
+        outline: none;
+      }
+
+      .input:focus {
+        border-color: #8ab4f8;
+        box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.12);
+      }
+
+      .button {
+        min-height: 52px;
+        border: none;
+        border-radius: 12px;
+        padding: 0 18px;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.2s ease;
+      }
+
+      .button-primary {
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .button-primary:hover {
+        background: var(--primary-dark);
+      }
+
+      .button-primary:disabled,
+      .button-secondary:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+      }
+
+      .button-secondary {
+        background: #eef4ff;
+        color: var(--primary);
+      }
+
+      .helper {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .notice,
+      .result {
+        margin-top: 22px;
+        border-radius: 14px;
+        padding: 18px 18px 16px;
+      }
+
+      .notice.info {
+        background: #eef4ff;
+        color: #1f3f7a;
+      }
+
+      .notice.success {
+        background: var(--success-bg);
+        color: var(--success-text);
+      }
+
+      .notice.error {
+        background: var(--error-bg);
+        color: var(--error-text);
+      }
+
+      .notice.warning {
+        background: var(--warning-bg);
+        color: var(--warning-text);
+      }
+
+      .notice.hidden,
+      .result.hidden {
+        display: none;
+      }
+
+      .result {
+        background: #fbfcff;
+        border: 1px solid #dbe7ff;
+      }
+
+      .result h2 {
+        margin: 0 0 14px;
+        font-size: 20px;
+      }
+
+      .meta-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+
+      .meta-item {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 12px 14px;
+      }
+
+      .meta-item span {
+        display: block;
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .meta-item strong {
+        display: block;
+        font-size: 15px;
+        line-height: 1.5;
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .small {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .footer {
+        margin-top: 22px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      @media (max-width: 640px) {
+        .hero,
+        .content {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+
+        .hero h1 {
+          font-size: 25px;
+        }
+
+        .meta-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .button,
+        .input {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="card">
+        <div class="hero">
+          <h1><?= config.appTitle ?></h1>
+          <p><?= config.appSubtitle ?></p>
+        </div>
+
+        <div class="content">
+          <? if (!config.isReady) { ?>
+          <div class="notice warning">
+            Aplikasi belum siap digunakan. Jalankan fungsi <strong>setupAplikasi()</strong> di Apps Script
+            Editor, isi data guru, lalu deploy ulang sebagai web app.
+          </div>
+          <? } ?>
+
+          <form id="searchForm">
+            <label class="field-label" for="identifier">Email atau NIY Guru</label>
+            <div class="field-row">
+              <input
+                class="input"
+                type="text"
+                id="identifier"
+                name="identifier"
+                placeholder="Contoh: guru1@example.com atau 198001012001011001"
+                required
+              />
+              <button class="button button-primary" type="submit" id="submitBtn">
+                Cari &amp; Download
+              </button>
+            </div>
+            <div class="helper">
+              Guru cukup memasukkan email atau NIY yang terdaftar pada database panitia.
+            </div>
+          </form>
+
+          <div id="notice" class="notice info hidden"></div>
+
+          <div id="result" class="result hidden">
+            <h2>Sertifikat siap diunduh</h2>
+            <div class="meta-grid">
+              <div class="meta-item">
+                <span>Nama</span>
+                <strong id="guruNama">-</strong>
+              </div>
+              <div class="meta-item">
+                <span>Instansi</span>
+                <strong id="guruInstansi">-</strong>
+              </div>
+              <div class="meta-item">
+                <span>Workshop</span>
+                <strong id="guruWorkshop">-</strong>
+              </div>
+              <div class="meta-item">
+                <span>Tanggal</span>
+                <strong id="guruTanggal">-</strong>
+              </div>
+              <div class="meta-item">
+                <span>Nomor Sertifikat</span>
+                <strong id="guruNomor">-</strong>
+              </div>
+              <div class="meta-item">
+                <span>Jam Pelatihan</span>
+                <strong id="guruJp">-</strong>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button type="button" class="button button-primary" id="downloadAgainBtn">
+                Download Ulang PDF
+              </button>
+            </div>
+            <div class="small">
+              File PDF akan otomatis diunduh setelah data ditemukan.
+            </div>
+          </div>
+
+          <div class="footer">
+            JIka terdapat kesalahan nama dan gelar silahkan hubungi KABAG Teknologi Informasi & Komunikasi.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let latestPdf = null;
+
+      const searchForm = document.getElementById('searchForm');
+      const submitBtn = document.getElementById('submitBtn');
+      const noticeEl = document.getElementById('notice');
+      const resultEl = document.getElementById('result');
+      const downloadAgainBtn = document.getElementById('downloadAgainBtn');
+
+      searchForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const identifier = document.getElementById('identifier').value.trim();
+
+        if (!identifier) {
+          showNotice('Email atau NIY wajib diisi.', 'error');
+          hideResult();
+          return;
+        }
+
+        setLoading(true);
+        hideResult();
+        showNotice('Sedang menyiapkan sertifikat Anda...', 'info');
+
+        google.script.run
+          .withSuccessHandler(function (response) {
+            latestPdf = response;
+            fillResult(response);
+            showNotice('Sertifikat berhasil dibuat. Unduhan dimulai otomatis.', 'success');
+            showResult();
+            downloadPdf(response.base64Pdf, response.filename, response.mimeType);
+            setLoading(false);
+          })
+          .withFailureHandler(function (error) {
+            const message = error && error.message ? error.message : 'Terjadi kesalahan saat membuat sertifikat.';
+            showNotice(message, 'error');
+            hideResult();
+            setLoading(false);
+          })
+          .generateCertificate({ identifier: identifier });
+      });
+
+      downloadAgainBtn.addEventListener('click', function () {
+        if (!latestPdf) {
+          showNotice('Belum ada file PDF yang siap diunduh.', 'warning');
+          return;
+        }
+        downloadPdf(latestPdf.base64Pdf, latestPdf.filename, latestPdf.mimeType);
+      });
+
+      function setLoading(isLoading) {
+        submitBtn.disabled = isLoading;
+        submitBtn.textContent = isLoading ? 'Memproses...' : 'Cari & Download';
+      }
+
+      function showNotice(message, type) {
+        noticeEl.className = 'notice ' + type;
+        noticeEl.textContent = message;
+      }
+
+      function fillResult(response) {
+        document.getElementById('guruNama').textContent = response.guru.nama || '-';
+        document.getElementById('guruInstansi').textContent = response.guru.instansi || '-';
+        document.getElementById('guruWorkshop').textContent = response.guru.workshop || '-';
+        document.getElementById('guruTanggal').textContent = response.guru.tanggal || '-';
+        document.getElementById('guruNomor').textContent = response.guru.nomorSertifikat || '-';
+        document.getElementById('guruJp').textContent = response.guru.jp || '-';
+      }
+
+      function showResult() {
+        resultEl.classList.remove('hidden');
+      }
+
+      function hideResult() {
+        resultEl.classList.add('hidden');
+      }
+
+      function downloadPdf(base64Data, filename, mimeType) {
+        const blob = base64ToBlob(base64Data, mimeType || 'application/pdf');
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = filename || 'sertifikat.pdf';
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+        setTimeout(function () {
+          URL.revokeObjectURL(url);
+        }, 1000);
+      }
+
+      function base64ToBlob(base64, mimeType) {
+        const byteCharacters = atob(base64);
+        const sliceSize = 512;
+        const byteArrays = [];
+
+        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+          const slice = byteCharacters.slice(offset, offset + sliceSize);
+          const byteNumbers = new Array(slice.length);
+          for (let i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+          }
+          byteArrays.push(new Uint8Array(byteNumbers));
+        }
+
+        return new Blob(byteArrays, { type: mimeType });
+      }
+    </script>
+  </body>
 </html>
