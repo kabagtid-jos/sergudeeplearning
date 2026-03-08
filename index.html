@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>SerGu Deep Learning</title>
   <style>
-    /* Mereset margin dan padding agar iframe benar-benar penuh */
+    /* Mereset margin dan padding agar iframe benar-benar penuh di jendela browser */
     body, html {
       margin: 0;
       padding: 0;
@@ -23,27 +23,6 @@
       height: 100vh;
       border: none;
     }
-
-    /* Styling untuk tombol fullscreen */
-    #fullscreen-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      padding: 12px 20px;
-      background-color: #4285F4;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-      font-size: 14px;
-      font-weight: bold;
-      z-index: 1000;
-      cursor: pointer;
-    }
-
-    #fullscreen-btn:active {
-      background-color: #3367D6;
-    }
   </style>
 </head>
 <body>
@@ -52,33 +31,6 @@
     src="https://script.google.com/macros/s/AKfycbzhwFncu-B13JW-iJbF2IAwc_uI4pJaNYxWuYPt-zMET1KZBgyz4vVToRlPJJB0YIKz1A/exec"
     allowfullscreen="true">
   </iframe>
-
-  <button id="fullscreen-btn">Masuk Layar Penuh</button>
-
-  <script>
-    const iframe = document.querySelector('iframe');
-    const fsBtn = document.getElementById('fullscreen-btn');
-
-    // Fungsi untuk memicu layar penuh dari interaksi klik
-    fsBtn.addEventListener('click', function() {
-      if (iframe.requestFullscreen) {
-        iframe.requestFullscreen();
-      } else if (iframe.webkitRequestFullscreen) { /* Safari */
-        iframe.webkitRequestFullscreen();
-      } else if (iframe.msRequestFullscreen) { /* IE11 */
-        iframe.msRequestFullscreen();
-      }
-    });
-
-    // Opsional: Menyembunyikan tombol saat sudah masuk mode layar penuh
-    document.addEventListener('fullscreenchange', () => {
-      if (document.fullscreenElement) {
-        fsBtn.style.display = 'none';
-      } else {
-        fsBtn.style.display = 'block';
-      }
-    });
-  </script>
 
 </body>
 </html>
