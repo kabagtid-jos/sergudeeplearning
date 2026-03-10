@@ -5,23 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>SerGu Deep Learning</title>
   <style>
-    /* Mereset margin dan padding agar iframe benar-benar penuh di jendela browser */
+    /* Mereset margin dan padding agar iframe penuh di jendela browser */
     body, html {
       margin: 0;
       padding: 0;
       width: 100%;
       height: 100%;
-      overflow: hidden; /* Mencegah munculnya scrollbar ganda di mobile */
+      overflow: hidden; /* Mencegah munculnya scrollbar ganda di parent */
       background-color: #f0f0f0;
     }
 
     iframe {
-      position: fixed;
+      position: absolute; /* Menggunakan absolute lebih stabil daripada fixed untuk iframe full-screen */
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
+      bottom: 0;
+      right: 0;
+      width: 100%; /* Diubah dari 100vw menjadi 100% */
+      height: 100%; /* Diubah dari 100vh menjadi 100% */
       border: none;
+      display: block;
     }
   </style>
 </head>
